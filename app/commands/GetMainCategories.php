@@ -54,9 +54,10 @@ class GetMainCategories extends Command {
 			));
 
 			$category->type = $json['type'];
-			$category->state = isset($json['state']) ? $json['state'] : null;
+			$category->state = isset($json['state']) ? $json['state'] : null; // state field isn't in all categories
 			$category->userDate = $json['userDate'];
 			$category->title = $json['title'];
+			$category->key = $json['key'];
 			$category->url = $json['url'];
 			$category->seo_headline = $json['seo-headline'];
 			$category->save();

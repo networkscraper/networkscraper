@@ -19,7 +19,7 @@ class CreateCategoriesTable extends Migration {
 		    $table->integer('contentId');
 		    $table->time('userDate');
 			$table->string('title', 100);	
-			$table->string('bigblurb', 500);	
+			$table->string('key', 100);	
 			$table->string('url', 100);	
 			$table->string('seo_headline', 100);	
 			$table->timestamps();
