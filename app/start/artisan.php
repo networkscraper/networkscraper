@@ -12,4 +12,4 @@
 */
 
 Artisan::add(new GetMainCategories);
-
+Artisan::add(new GetShowsForCategories);
