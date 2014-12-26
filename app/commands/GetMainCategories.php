@@ -1,6 +1,7 @@
 <?php
 
 use Goutte\Client;
+use Jyggen\Curl\Curl;
 use Illuminate\Console\Command;
 
 class GetMainCategories extends Command {
@@ -44,37 +45,28 @@ class GetMainCategories extends Command {
 	 */
 	public function fire()
 	{
-	
-		
-/*		$client = new Client();
-		$crawler = $client->request('GET', $this->urlConfig['shows']);
-		$crawler->filter('.row > .secondary-nav > a')->each(function ($node) {
-		    
-		});*/
+		$mainCategoryUrls = $this->urlConfig;
+		foreach ($mainCategoryUrls as $name => $categoryUrl) {
+			$this->info("$name: $categoryUrl");
+			$json = $this->getJsonArrayFromUrl($categoryUrl);
+			$category = Category::firstOrNew(array(
+				'contentId' => $json['contentId']
+			));
 
-		$client = new Client();
-		$crawler = $client->request('GET', 'http://network.wwe.com/video/v31299871');
-		$crawler->filter('script')->each(function ($node) {
-		    if (strpos($node->text(),'vppConfig') !== false) {
-
-			    $json = $this->extract_unit($node->text(), "vppConfig = {", "var gptAdConfig" );
-			    $json = str_replace('\n', '', $json);
-			    $json = str_replace("\\", '', $json);
-			    $json = json_decode($json);
-
-			    // between <milestones and </milestones>
-			}
-		});
-
+			$category->type = $json['type'];
+			$category->state = isset($json['state']) ? $json['state'] : null;
+			$category->userDate = $json['userDate'];
+			$category->title = $json['title'];
+			$category->url = $json['url'];
+			$category->seo_headline = $json['seo-headline'];
+			$category->save();
+		}
 	}
-	private function extract_unit($string, $start, $end)
+
+	public function getJsonArrayFromUrl($url)
 	{
-		$startPos = stripos($string, $start);
-		$endPos = stripos($string, $end);
-
-		$result = substr($string, $startPos, $endPos - $startPos);
-
-
-		return $result;
+		$rawJson = Curl::get($url);
+		$json = json_decode($rawJson[0]->getContent(), true);
+		return $json;
 	}
 }

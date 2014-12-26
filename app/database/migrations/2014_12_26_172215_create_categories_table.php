@@ -12,16 +12,19 @@ class CreateCategoriesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('categories', function($table)
+		Schema::create('categories', function($table)
 		{
 			$table->string('type');	
-			$table->string('state');	
+			$table->string('state')->nullable();	
 		    $table->integer('contentId');
-		    $table->time('userDate')
+		    $table->time('userDate');
 			$table->string('title', 100);	
 			$table->string('bigblurb', 500);	
 			$table->string('url', 100);	
-			$table->string('seo-headline', 100);	
+			$table->string('seo_headline', 100);	
+			$table->timestamps();
+
+			$table->primary('contentId');	
 		});
 	}
 
