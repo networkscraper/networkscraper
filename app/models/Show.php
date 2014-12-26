@@ -1,6 +1,6 @@
 <?php
 
-class Category extends Eloquent
+class Show extends Eloquent
 {
 
 	/**
@@ -8,14 +8,12 @@ class Category extends Eloquent
 	 *
 	 * @var string
 	 */
-	protected $table = 'categories';
+	protected $table = 'shows';
     protected $guarded = array('');
     protected $primaryKey = 'contentId';
 
-    public function shows()
+    public function category()
     {
-        return $this->hasMany('Show');
+        return $this->belongsTo('Category');
     }
-
-
 }
