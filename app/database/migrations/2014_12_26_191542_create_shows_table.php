@@ -20,6 +20,7 @@ class CreateShowsTable extends Migration {
 		    $table->integer('category_id');
 		    $table->time('userDate');
 			$table->string('title', 100);	
+			$table->string('show_name');	
 			$table->string('bigblurb', 500)->nullable();	
 			$table->string('url', 100);	
 			$table->string('seo_headline', 100);	

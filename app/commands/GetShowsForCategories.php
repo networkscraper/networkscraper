@@ -60,15 +60,13 @@ class GetShowsForCategories extends Command {
 				$show->state = isset($showInfo['state']) ? $showInfo['state'] : null;
 				$show->userDate = $showInfo['userDate'];
 				$show->title = $showInfo['title'];
+				$show->show_name = $showInfo['itemTags']['show_name'][0];
 				$show->bigblurb = isset($showInfo['bigblurb']) ? $showInfo['bigblurb'] : null;
 				$show->url = $showInfo['url'];
 				$show->seo_headline = $showInfo['seo-headline'];
 				$show->save();
-
 			}
 		}
-
-
 	}
 
 	public function getJsonArrayFromUrl($url)
