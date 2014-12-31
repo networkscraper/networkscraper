@@ -16,4 +16,9 @@ class Show extends Eloquent
     {
         return $this->belongsTo('Category');
     }
+
+	public function episodes()
+    {
+        return $this->hasMany('Episode');
+    }
 }

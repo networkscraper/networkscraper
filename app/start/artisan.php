@@ -13,3 +13,5 @@
 
 Artisan::add(new GetMainCategories);
 Artisan::add(new GetShowsForCategories);
+Artisan::add(new GetEpisodesForShows);
+Artisan::add(new ImportAll);
