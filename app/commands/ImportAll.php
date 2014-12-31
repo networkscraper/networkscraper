@@ -2,7 +2,7 @@
 
 use Illuminate\Console\Command;
 
-class ImportAll extends Command {
+class ImportAll extends BaseCommand {
 
 	/**
 	 * The console command name.

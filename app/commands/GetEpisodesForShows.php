@@ -3,7 +3,7 @@
 use Jyggen\Curl\Curl;
 use Illuminate\Console\Command;
 
-class GetEpisodesForShows extends Command {
+class GetEpisodesForShows extends BaseCommand {
 
 	/**
 	 * The console command name.
@@ -20,20 +20,12 @@ class GetEpisodesForShows extends Command {
 	protected $description = 'Gets episode info for shows.';
 
 	/**
-	 * URL config.
-	 *
-	 * @var array
-	 */
-	protected $urlConfig;
-
-	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
 	public function __construct()
 	{
-		$this->urlConfig = Config::get('urls');
 		parent::__construct();
 	}
 

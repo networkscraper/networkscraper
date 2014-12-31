@@ -4,7 +4,7 @@ use Goutte\Client;
 use Jyggen\Curl\Curl;
 use Illuminate\Console\Command;
 
-class GetMainCategories extends Command {
+class GetMainCategories extends BaseCommand {
 
 	/**
 	 * The console command name.
@@ -21,20 +21,12 @@ class GetMainCategories extends Command {
 	protected $description = 'Gets the main categories from the WWEN.';
 
 	/**
-	 * URL config.
-	 *
-	 * @var array
-	 */
-	protected $urlConfig;
-
-	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
 	public function __construct()
 	{
-		$this->urlConfig = Config::get('urls');
 		parent::__construct();
 	}
 

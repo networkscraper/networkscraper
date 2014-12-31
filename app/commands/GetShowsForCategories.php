@@ -3,7 +3,7 @@
 use Jyggen\Curl\Curl;
 use Illuminate\Console\Command;
 
-class GetShowsForCategories extends Command {
+class GetShowsForCategories extends BaseCommand {
 
 	/**
 	 * The console command name.
@@ -20,20 +20,12 @@ class GetShowsForCategories extends Command {
 	protected $description = 'Gets shows for each main category';
 
 	/**
-	 * URL config.
-	 *
-	 * @var array
-	 */
-	protected $urlConfig;
-
-	/**
 	 * Create a new command instance.
 	 *
 	 * @return void
 	 */
 	public function __construct()
 	{
-		$this->urlConfig = Config::get('urls');
 		parent::__construct();
 	}
 
