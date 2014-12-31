@@ -45,7 +45,7 @@ class GetMainCategories extends Command {
 	 */
 	public function fire()
 	{
-		$mainCategoryUrls = $this->urlConfig;
+		$mainCategoryUrls = $this->urlConfig['categories'];
 		foreach ($mainCategoryUrls as $name => $categoryUrl) {
 			$this->info("$name: $categoryUrl");
 			$json = $this->getJsonArrayFromUrl($categoryUrl);

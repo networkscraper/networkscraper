@@ -45,7 +45,7 @@ class GetShowsForCategories extends Command {
 	public function fire()
 	{
 
-		$mainCategoryUrls = $this->urlConfig;
+		$mainCategoryUrls = $this->urlConfig['categories'];
 		foreach ($mainCategoryUrls as $name => $categoryUrl) {
 			$this->comment("Category: $name");
 			$json = $this->getJsonArrayFromUrl($categoryUrl);
