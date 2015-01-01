@@ -16,6 +16,4 @@ class Category extends Eloquent
     {
         return $this->hasMany('Show');
     }
-
-
 }

@@ -35,13 +35,36 @@ class ImportMilestones extends BaseCommand {
 	 */
 	public function fire()
 	{
-		$allEpisodes = Episode::all();
+		$this->info("Getting all episodes...");
+		$allEpisodes = Episode::whereNotNull('milestones_xml')->get();
 		$allEpisodes->each(function($episode)
 		{
-			$milestoneArray = $episode->getMilestoneArray();
+			$this->info("Getting Milestone Json... {$episode->headline}");
+			$milestoneJson = $episode->getMilestoneJson();
+			
+				foreach ($milestoneJson['milestone'] as $milestoneData) {
 
-			dd($milestoneArray);
+					$id =  $milestoneData['@attributes']['id'];
+
+					$this->info("Parsing Milestone Data $id");	
+					$milestone = Milestone::firstOrNew(array(
+						'id' => $id
+					));
+
+					$milestone->title = isset($milestoneData['title']) ? $milestoneData['title'] : null; // title field isn't in all milestones
+					$milestone->blurb = isset($milestoneData['blurb']) ? $milestoneData['blurb'] : null; // blurb field isn't in all milestones
+					$milestone->contentId = $episode->contentId;
+
+					if (isset($milestoneData['keywords']['keyword'])) {
+						foreach ($milestoneData['keywords']['keyword'] as $keyword) {
+							$milestone->type = $keyword["@attributes"]['type'];	
+							$milestone->value = $keyword["@attributes"]['value'];	
+							$milestone->displayName = $keyword["@attributes"]['displayName'];	
+						}
+					}
+
+					$milestone->save();	
+				}
 		});
-
 	}
 }

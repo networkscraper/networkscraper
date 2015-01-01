@@ -38,5 +38,7 @@ class ImportAll extends BaseCommand {
 		$this->call('wwen:get-main-categories');
 		$this->call('wwen:get-shows-for-categories');
 		$this->call('wwen:get-episodes-for-shows');
+		$this->call('wwen:import-milestones');
+
 	}
 }

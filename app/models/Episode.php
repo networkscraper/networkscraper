@@ -25,7 +25,12 @@ class Episode extends Eloquent
         return $this->belongsTo('Show');
     }
 
-    public function getMilestoneArray()
+	public function milestones()
+    {
+        return $this->hasMany('Milestone');
+    }
+
+    public function getMilestoneJson()
     {
 		$this->urlConfig = Config::get('urls');
 		$metaDataUrl = $this->urlConfig['video'];
@@ -41,9 +46,9 @@ class Episode extends Eloquent
 
 		$xml = simplexml_load_string($milestoneXml);
 		$json = json_encode($xml);
-		$array = json_decode($json,TRUE);
+		$json = json_decode($json, true);
+		return $json;
 
-		return $array;
 
     }
 }
