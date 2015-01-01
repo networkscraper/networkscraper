@@ -11,5 +11,7 @@ return array(
 	    'vault'    => 'http://network.wwe.com/gen/content/tag/v1/section/vault/jsonv4.json'
     ),
 
-    'episdoes' => 'http://network.wwe.com/gen/content/tag/v1/show_name/r/%s/jsonv4.json' // %s replaced with show_name field
+    'episdoes' => 'http://network.wwe.com/gen/content/tag/v1/show_name/r/%s/jsonv4.json', // %s replaced with show_name field
+
+    'video' => 'http://network.wwe.com/video/v%s' // %s replaced with media_playback_id field
 );
