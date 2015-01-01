@@ -17,5 +17,10 @@ class Milestone extends Eloquent
         return $this->belongsTo('episode');
     }
 
+    public function talent()
+    {
+		return $this->belongsToMany('Talent', 'milestones_talent', 'milestone_id', 'talent_id');
+    }
+
 
 }

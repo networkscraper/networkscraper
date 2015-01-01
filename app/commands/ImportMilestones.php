@@ -36,6 +36,7 @@ class ImportMilestones extends BaseCommand {
 	public function fire()
 	{
 		$this->info("Getting all episodes...");
+		//$allEpisodes = Episode::where('media_playback_id' ,'=', 31348419)->get(); //uncomment to just scrape WM 12
 		$allEpisodes = Episode::all();
 		$allEpisodes->each(function($episode)
 		{
@@ -61,11 +62,27 @@ class ImportMilestones extends BaseCommand {
 							$milestone->title = isset($milestoneData['title']) ? $milestoneData['title'] : null; // title field isn't in all milestones
 							$milestone->blurb = isset($milestoneData['blurb']) ? $milestoneData['blurb'] : null; // blurb field isn't in all milestones
 							$milestone->contentId = $episode->contentId;
-							$milestone->type = 	isset($keyword["@attributes"]['type']) ? $keyword["@attributes"]['type'] : null; // type field isn't in all milestones
-							$milestone->value = isset($keyword["@attributes"]['value']) ? $keyword["@attributes"]['value'] : null; // value field isn't in all milestones
-							$milestone->displayName = isset($keyword["@attributes"]['displayName']) ? $keyword["@attributes"]['displayName'] : null; // displayName field isn't in all milestones
-							$this->info("Type: {$milestone->type}: Value: {$milestone->value}");
-							$milestone->save();	
+							
+							$type = isset($keyword["@attributes"]['type']) ? $keyword["@attributes"]['type'] : null; // type field isn't in all milestones
+							if ($type == 'talent') {
+								// if it is a talent then we'll save to the talent table
+								$talent = Talent::firstOrNew(array('talent_id' => $keyword["@attributes"]['value']));
+								$talent->displayName = isset($keyword["@attributes"]['displayName']) ? $keyword["@attributes"]['displayName'] : null;
+								$this->info("Type: Talent: Value: {$talent->displayName}  ID: {$talent->talent_id}");
+
+
+								$talent->milestones()->attach($milestoneId);
+								$talent->save();
+
+							} else {
+								$milestone->type = $type;
+								$milestone->value = isset($keyword["@attributes"]['value']) ? $keyword["@attributes"]['value'] : null; // value field isn't in all milestones
+								$milestone->displayName = isset($keyword["@attributes"]['displayName']) ? $keyword["@attributes"]['displayName'] : null; // displayName field isn't in all milestones
+								$this->info("Type: {$milestone->type}: Value: {$milestone->value}");
+								$milestone->save();	
+							}
+
+
 
 						}
 					} 
