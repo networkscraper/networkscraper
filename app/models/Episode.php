@@ -40,6 +40,12 @@ class Episode extends Eloquent
 		$pattern = '/\<milestones(.*?)milestones\>/s';
 		preg_match($pattern, $rawMetaData[0], $matches);
 
+		// if no element 0 then there was something wrong with the returned data
+		if (!isset($matches[0])) {
+			return false;
+		}
+
+
 		$milestoneXml = $matches[0];
 		$milestoneXml = str_replace ('\n', '',  $milestoneXml );
 		$milestoneXml = str_replace ('\\', '',  $milestoneXml );
