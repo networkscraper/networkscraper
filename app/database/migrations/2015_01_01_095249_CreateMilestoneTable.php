@@ -14,7 +14,9 @@ class CreateMilestoneTable extends Migration {
 	{
 		Schema::create('milestones', function($table)
 		{
-			$table->integer('id');	
+			$table->increments('id');
+
+			$table->integer('milestone_id');	
 			$table->integer('contentId'); // link to episode
 			$table->string('title')->nullable();	
 			$table->string('blurb', 500)->nullable();	
@@ -22,9 +24,6 @@ class CreateMilestoneTable extends Migration {
 			$table->string('value')->nullable();
 			$table->string('displayName')->nullable();	
 			$table->timestamps();
-
-
-			$table->primary('id');	
 		});
 	}
 
