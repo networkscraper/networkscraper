@@ -36,13 +36,13 @@ class ImportMilestones extends BaseCommand {
 	public function fire()
 	{
 		$this->info("Getting all episodes...");
-		//$allEpisodes = Episode::where('media_playback_id' ,'=', 31348419)->get(); //uncomment to just scrape WM 12
-		$allEpisodes = Episode::all();
+		$allEpisodes = Episode::where('media_playback_id' ,'=', 31348419)->get(); //uncomment to just scrape WM 12
+		//$allEpisodes = Episode::all();
 		$allEpisodes->each(function($episode)
 		{
 			$this->info("Getting Milestone Json... {$episode->headline}  |  {$episode->media_playback_id}");
 			$milestoneJson = $episode->getMilestoneJson();
-
+			dd($episode);
 
 			if ( isset($milestoneJson['milestone'][0]) && isset($milestoneJson['milestone']))  {
 
@@ -53,10 +53,8 @@ class ImportMilestones extends BaseCommand {
 					$this->info("Parsing Milestone Data $milestoneId");	
 
 
-
 					if (isset($milestoneData['keywords']['keyword'])) {
 						foreach ($milestoneData['keywords']['keyword'] as $keyword) {
-
 							$milestone = new Milestone;
 							$milestone->milestone_id = $milestoneId;
 							$milestone->title = isset($milestoneData['title']) ? $milestoneData['title'] : null; // title field isn't in all milestones
@@ -64,26 +62,22 @@ class ImportMilestones extends BaseCommand {
 							$milestone->contentId = $episode->contentId;
 							
 							$type = isset($keyword["@attributes"]['type']) ? $keyword["@attributes"]['type'] : null; // type field isn't in all milestones
+											
+							$milestone->type = $type;
+							$milestone->value = isset($keyword["@attributes"]['value']) ? $keyword["@attributes"]['value'] : null; // value field isn't in all milestones
+							$milestone->displayName = isset($keyword["@attributes"]['displayName']) ? $keyword["@attributes"]['displayName'] : null; // displayName field isn't in all milestones
+							$this->info("Type: {$milestone->type}: Value: {$milestone->value}");
+							$milestone->save();
+
 							if ($type == 'talent') {
 								// if it is a talent then we'll save to the talent table
 								$talent = Talent::firstOrNew(array('talent_id' => $keyword["@attributes"]['value']));
 								$talent->displayName = isset($keyword["@attributes"]['displayName']) ? $keyword["@attributes"]['displayName'] : null;
 								$this->info("Type: Talent: Value: {$talent->displayName}  ID: {$talent->talent_id}");
-
-
-								$talent->milestones()->attach($milestoneId);
+								$talent->milestones()->attach($milestone->id);
 								$talent->save();
 
-							} else {
-								$milestone->type = $type;
-								$milestone->value = isset($keyword["@attributes"]['value']) ? $keyword["@attributes"]['value'] : null; // value field isn't in all milestones
-								$milestone->displayName = isset($keyword["@attributes"]['displayName']) ? $keyword["@attributes"]['displayName'] : null; // displayName field isn't in all milestones
-								$this->info("Type: {$milestone->type}: Value: {$milestone->value}");
-								$milestone->save();	
-							}
-
-
-
+							} 
 						}
 					} 
 
