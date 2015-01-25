@@ -19,7 +19,12 @@ class Milestone extends Eloquent
 
     public function talent()
     {
-		return $this->belongsToMany('Talent', 'milestones_talent', 'milestone_id', 'talent_id');
+		return $this->belongsToMany('Talent', 'milestones_talent', 'milestone_id', 'talent_id')->orWhere('milestone_id', $this->id);
+    }
+
+    public function getForTalent($talentId)
+    {
+        
     }
 
 

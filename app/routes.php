@@ -15,3 +15,17 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('/talent/{talentId}', function($talentId)
+{
+	//$talent = Talent::where('talent_id', '=', $talentId)->first();
+
+	$talent = Talent::where('talent_id', '=', $talentId)->with('milestones')->first();
+
+	//dd($talent);
+dd(DB::getQueryLog());
+
+
+    return 'talent '.$talentId;
+});
+
