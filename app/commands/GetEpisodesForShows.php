@@ -83,7 +83,7 @@ class GetEpisodesForShows extends BaseCommand {
 				$episode->blurb	    = $episodeDetails['blurb'];
 				$episode->sequence	    = $episodeDetails['sequence'];
 				$episode->feature_context    = $episodeDetails['feature-context'];
-				$episode->notes	    = $episodeDetails['notes'];
+				$episode->notes	    = 				isset($episodeDetails['notes']) ? $episodeDetails['notes'] : null;
 				$episode->delivery_type	    = $episodeDetails['delivery-type'];
 				$episode->namespace	    = $episodeDetails['namespace'];
 				$episode->bigblurb	    = $episodeDetails['bigblurb'];

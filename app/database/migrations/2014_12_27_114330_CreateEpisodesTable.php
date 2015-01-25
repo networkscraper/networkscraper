@@ -25,7 +25,7 @@ class CreateEpisodesTable extends Migration {
 			$table->string('blurb', 100);	
 			$table->integer('sequence');	
 			$table->string('feature_context', 100);	
-			$table->string('notes', 500);	
+			$table->string('notes', 500)->nullable();	
 			$table->string('delivery_type', 100);	
 			$table->integer('namespace');	
 			$table->string('bigblurb', 500);	
