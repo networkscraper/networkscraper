@@ -28,11 +28,31 @@ Route::get('/talent/{talentId}/matches', function($talentId)
 	dd($matches);
 });
 
-Route::get('/show/{showId}/episodes', function($showId)
+Route::get('/show/', function()
+{
+	$shows = Show::all();
+
+	$shows->each(function($show)
+    {
+        echo "$show->title<br/>";
+    });
+	
+});
+
+Route::get('/show/{showId}/', function($showId)
 {
 	$show = Show::where('show_name', '=', $showId)->first();
 	$episodes = $show->episodes();
 
 	$episodes = $episodes->get()->toArray();
 
+	dd($episodes);		
 });
+
+Route::get('/category/', function()
+{
+	$categories = Category::all();
+	$categories->each(function($category)
+    {
+        echo "$category->title<br/>";
+    });});

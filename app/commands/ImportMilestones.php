@@ -36,8 +36,8 @@ class ImportMilestones extends BaseCommand {
 	public function fire()
 	{
 		$this->info("Getting all episodes...");
-		$allEpisodes = Episode::where('media_playback_id' ,'=', 31348419)->get(); //uncomment to just scrape WM 12
-		//$allEpisodes = Episode::all();
+		//$allEpisodes = Episode::where('media_playback_id' ,'=', 31348419)->get(); //uncomment to just scrape WM 12
+		$allEpisodes = Episode::all();
 		$allEpisodes->each(function($episode)
 		{
 			$this->info("Getting Milestone Json... {$episode->headline}  |  {$episode->media_playback_id}");
