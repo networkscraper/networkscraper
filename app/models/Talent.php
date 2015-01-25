@@ -14,6 +14,26 @@ class Talent extends Eloquent
 
 	public function milestones()
     {
-        return $this->belongsToMany('Milestone', 'milestones_talent', 'talent_id', 'milestone_id');
+        return $this->belongsToMany('Milestone', 'milestones_talent', 'talent_id', 'id');
+    }
+
+    public function getMatchStartMilestones()
+    {
+    	 $milestones = $this->milestones()->get();
+
+    	 $milestones = $milestones->toArray();
+
+    	 $milestonesIdArray = [];
+    	 foreach ($milestones as $milestone) {
+    	 	$milestonesIdArray[] = $milestone['milestone_id'];
+    	 }
+
+
+    	 $matchStartMilestones = Milestone::with('Episode')
+    	 									->where('value', '=', 'match_start')
+    	 									->whereIn('milestone_id', $milestonesIdArray)
+    	 									->get();
+
+    	 return $matchStartMilestones->toArray();
     }
 }

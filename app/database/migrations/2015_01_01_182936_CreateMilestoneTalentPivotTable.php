@@ -14,8 +14,7 @@ class CreateMilestoneTalentPivotTable extends Migration {
 	{
 		Schema::create('milestones_talent', function($table)
 		{
-			$table->increments('id');
-			$table->integer('milestone_id');	
+			$table->integer('id');	// milestone's id field
 			$table->string('talent_id'); 
 			$table->timestamps();
 		});

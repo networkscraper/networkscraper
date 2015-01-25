@@ -16,16 +16,23 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('/talent/{talentId}', function($talentId)
+Route::get('/talent/{talentId}/matches', function($talentId)
 {
 	//$talent = Talent::where('talent_id', '=', $talentId)->first();
 
-	$talent = Talent::where('talent_id', '=', $talentId)->with('milestones')->first();
+	$talent = Talent::where('talent_id', '=', $talentId)->first();
+	$matches = $talent->getMatchStartMilestones();
 
-	//dd($talent);
-dd(DB::getQueryLog());
+	//dd(DB::getQueryLog());
 
-
-    return 'talent '.$talentId;
+	dd($matches);
 });
 
+Route::get('/show/{showId}/episodes', function($showId)
+{
+	$show = Show::where('show_name', '=', $showId)->first();
+	$episodes = $show->episodes();
+
+	$episodes = $episodes->get()->toArray();
+
+});
