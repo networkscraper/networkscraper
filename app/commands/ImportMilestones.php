@@ -54,16 +54,19 @@ class ImportMilestones extends BaseCommand {
 
 					if (isset($milestoneData['keywords']['keyword'])) {
 						foreach ($milestoneData['keywords']['keyword'] as $keyword) {
-							$milestone = new Milestone;
-							$milestone->milestone_id = $milestoneId;
-							$milestone->title = isset($milestoneData['title']) ? $milestoneData['title'] : null; // title field isn't in all milestones
-							$milestone->blurb = isset($milestoneData['blurb']) ? $milestoneData['blurb'] : null; // blurb field isn't in all milestones
-							$milestone->contentId = $episode->contentId;
-							
 							$type = isset($keyword["@attributes"]['type']) ? $keyword["@attributes"]['type'] : null; // type field isn't in all milestones
+							$value = isset($keyword["@attributes"]['value']) ? $keyword["@attributes"]['value'] : null; // value field isn't in all milestones
+
+							$milestone = Milestone::firstOrNew(array(
+								'milestone_id' => $milestoneId, 
+								'contentId' => $episode->contentId,
+								'type' => $type,
+								'value' => $value)
+							);
+
+							$milestone->title = isset($milestoneData['title']) ? $milestoneData['title'] : null; // title field isn't in all milestones
+							$milestone->blurb = isset($milestoneData['blurb']) ? $milestoneData['blurb'] : null; // blurb field isn't in all milestones							
 											
-							$milestone->type = $type;
-							$milestone->value = isset($keyword["@attributes"]['value']) ? $keyword["@attributes"]['value'] : null; // value field isn't in all milestones
 							$milestone->displayName = isset($keyword["@attributes"]['displayName']) ? $keyword["@attributes"]['displayName'] : null; // displayName field isn't in all milestones
 							$this->info("Type: {$milestone->type}: Value: {$milestone->value}");
 							$milestone->save();
