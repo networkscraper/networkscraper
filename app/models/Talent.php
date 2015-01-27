@@ -29,11 +29,13 @@ class Talent extends Eloquent
     	 }
 
 
-    	 $matchStartMilestones = Milestone::with('Episode')
+    	 $matchStartMilestones = Milestone::with(array('Episode' => function($query) {
+										        $query->orderBy('air_date', 'DESC');
+										    }))
     	 									->where('value', '=', 'match_start')
     	 									->whereIn('milestone_id', $milestonesIdArray)
     	 									->get();
 
-    	 return $matchStartMilestones->toArray();
+    	 return $matchStartMilestones;
     }
 }

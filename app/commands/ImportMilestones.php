@@ -42,9 +42,8 @@ class ImportMilestones extends BaseCommand {
 		{
 			$this->info("Getting Milestone Json... {$episode->headline}  |  {$episode->media_playback_id}");
 			$milestoneJson = $episode->getMilestoneJson();
-			dd($episode);
 
-			if ( isset($milestoneJson['milestone'][0]) && isset($milestoneJson['milestone']))  {
+			if (isset($milestoneJson['milestone'][0]) && isset($milestoneJson['milestone']))  {
 
 				
 				foreach ($milestoneJson['milestone'] as $milestoneData) {

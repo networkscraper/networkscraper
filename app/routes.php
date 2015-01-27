@@ -16,6 +16,15 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
+Route::get('/talent/', function()
+{
+	$talent = Talent::all();
+	$talent->each(function($talent)
+    {
+        echo "<a href='http://178.62.82.197/networkscraper/public/index.php/talent/$talent->talent_id/matches'>$talent->displayName</a><br/>";
+    });
+});
+
 Route::get('/talent/{talentId}/matches', function($talentId)
 {
 	//$talent = Talent::where('talent_id', '=', $talentId)->first();
@@ -23,9 +32,16 @@ Route::get('/talent/{talentId}/matches', function($talentId)
 	$talent = Talent::where('talent_id', '=', $talentId)->first();
 	$matches = $talent->getMatchStartMilestones();
 
-	//dd(DB::getQueryLog());
+	$matches = $matches->sortBy(function($matches)
+	{
+	    return $matches->episode->air_date;
+	});
 
-	dd($matches);
+	$matches->each(function($match)
+    {
+    	echo $match->episode->headline . "<br/>";
+    	echo "<a href='http://network.wwe.com/video/v{$match->episode->media_playback_id}/milestone/$match->milestone_id'>$match->blurb</a><br/><br/>";
+    });
 });
 
 Route::get('/show/', function()
@@ -37,6 +53,21 @@ Route::get('/show/', function()
         echo "$show->title<br/>";
     });
 	
+});
+
+Route::get('/episode/', function()
+{
+	$episodes = Episode::all();
+
+	$episodes = $episodes->sortBy(function($episodes)
+	{
+	    return $episodes->air_date;
+	});
+	$episodes->each(function($episodes)
+    {
+    	echo $episodes->headline . "<br/>";
+    	echo $episodes->bigblurb . "<br/><br/>";
+    });
 });
 
 Route::get('/show/{showId}/', function($showId)
